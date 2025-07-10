@@ -474,7 +474,8 @@ After making changes to configuration files, `python3 tools/db_updater.py` must 
     -   Implement generic handlers for other common protocols (e.g., SNMP, RDP, custom application protocols) to broaden scan capabilities.
 -   **Report Presentation Refinements:**
     -   **Improve Low Confidence Guidance:** Provide more specific guidance or potential next steps for `Low Confidence` findings beyond "Manual verification required." (e.g., "Consider running Nmap script X for further analysis").
-    -   **Database Management Enhancements:** Further optimize `db_updater.py` for even faster and more resilient CVE data fetching from NVD, ensuring the `cve-main.json` remains up-to-date and well-curated.
+-   **Database Management Enhancements:** 
+    -   Further optimize `db_updater.py` for even faster and more resilient CVE data fetching from NVD, ensuring the `cve-main.json` remains up-to-date and well-curated.
 
 ---
 
