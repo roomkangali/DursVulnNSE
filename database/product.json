@@ -1,0 +1,320 @@
+[
+  {
+    "standard_name": "jenkins",
+    "search_term": "cpe:2.3:a:jenkins:jenkins",
+    "aliases": ["jetty"],
+    "detection_rules": [
+      {
+        "type": "http_header",
+        "name": "x-jenkins",
+        "regex": "([%d%.%-LTS]+)"
+      }
+    ]
+  },
+   {
+    "standard_name": "mysql",
+    "search_term": "cpe:2.3:a:mysql:mysql",
+    "aliases": ["mysql", "mariadb"]
+  },
+  {
+    "standard_name": "php",
+    "search_term": "cpe:2.3:a:php:php",
+    "aliases": [],
+    "detection_rules": [
+      {
+        "type": "http_header",
+        "name": "X-Powered-By",
+        "regex": "PHP/([%d%.-]+)"
+      }
+    ]
+  },
+  {
+    "standard_name": "apache tomcat",
+    "search_term": "cpe:2.3:a:apache:tomcat",
+    "aliases": ["ajp"],
+    "detection_rules": [
+      {
+        "type": "html_body",
+        "path": "/",
+        "regex": "Apache Tomcat/([%d%.-]+)"
+      }
+    ]
+  },
+  {
+    "standard_name": "proftpd",
+    "search_term": "cpe:2.3:a:proftpd:proftpd",
+    "aliases": ["ftp"],
+    "detection_rules": [
+      {
+        "type": "banner_grab",
+        "regex": "ProFTPD ([%d%.%a%d]+) Server"
+      }
+    ]
+  },
+  {
+    "standard_name": "redis",
+    "search_term": "cpe:2.3:a:redis:redis",
+    "aliases": [],
+    "detection_rules": [
+      {
+        "type": "redis_command",
+        "command": "INFO server",
+        "regex": "redis_version:([%d%.-]+)"
+      }
+    ]
+  },
+  {
+    "standard_name": "vmware esxi",
+    "search_term": "cpe:2.3:o:vmware:esxi",
+    "aliases": ["vmauthd"],
+    "detection_rules": [
+      {
+        "type": "http_header",
+        "name": "Server",
+        "regex": "VMware ESXi ([%d%.-]+)"
+      }
+    ]
+  },
+  {
+    "standard_name": "wordpress",
+    "search_term": "cpe:2.3:a:wordpress:wordpress",
+    "aliases": [],
+    "detection_rules": [
+      {
+        "type": "html_body",
+        "path": "/readme.html",
+        "regex": "Version ([%d%.-]+)"
+      }
+    ]
+  },
+  {
+    "standard_name": "joomla",
+    "search_term": "cpe:2.3:a:joomla:joomla\\!",
+    "aliases": [],
+    "detection_rules": [
+      {
+        "type": "http_file_content",
+        "path": "/administrator/manifests/files/joomla.xml",
+        "regex": "<version>([%d%.]+)</version>"
+      }
+    ]
+  },
+  {
+    "standard_name": "drupal",
+    "search_term": "cpe:2.3:a:drupal:drupal",
+    "aliases": [],
+    "detection_rules": [
+      {
+        "type": "http_header",
+        "name": "X-Generator",
+        "regex": "Drupal ([%d]+)"
+      }
+    ]
+  },
+  {
+    "standard_name": "microsoft sql server",
+    "search_term": "cpe:2.3:a:microsoft:sql_server",
+    "aliases": ["ms-sql-s", "mssql"]
+  },
+  {
+    "standard_name": "kerberos",
+    "search_term": "kerberos",
+    "aliases": ["kerberos-sec", "kpasswd5", "kpasswd"],
+    "detection_rules": [
+      {
+        "type": "banner_grab",
+        "regex": "Kerberos"
+      }
+    ]
+  },
+  {
+    "standard_name": "ldap",
+    "search_term": "ldap",
+    "aliases": ["ldaps", "global-catalog"],
+    "detection_rules": [
+      {
+        "type": "banner_grab",
+        "regex": "OpenLDAP ([%d%.%d]+)"
+      }
+    ]
+  },
+  {
+    "standard_name": "rdp",
+    "search_term": "remote desktop protocol",
+    "aliases": ["ms-wbt-server"]
+  },
+  {
+    "standard_name": "powerdns recursor",
+    "search_term": "cpe:2.3:a:powerdns:recursor",
+    "aliases": [
+      "dns",
+      "pdns-recursor",
+      "domain",
+      "powerdns recursor"
+    ]
+  },
+  {
+    "standard_name": "apache http server",
+    "search_term": "cpe:2.3:a:apache:http_server",
+    "aliases": ["httpd", "apache httpd", "http", "https"]
+  },
+  {
+    "standard_name": "openssh",
+    "aliases": ["ssh", "open-ssh", "opensshd"]
+  },
+  {
+    "standard_name": "nginx",
+    "search_term": "nginx",
+    "aliases": []
+  },
+  {
+    "standard_name": "vsftpd",
+    "search_term": "vsftpd",
+    "aliases": []
+  },
+  {
+    "standard_name": "samba",
+    "search_term": "samba",
+    "aliases": ["samba smbd", "netbios-ssn"]
+  },
+  {
+    "standard_name": "exim",
+    "search_term": "cpe:2.3:a:exim:exim",
+    "aliases": ["exim smtpd", "smtp"]
+  },
+  {
+    "standard_name": "postgresql",
+    "search_term": "cpe:2.3:a:postgresql:postgresql",
+    "aliases": ["postgresql db"]
+  },
+  {
+    "standard_name": "microsoft-ds",
+    "search_term": "CVE-2017-0144",
+    "aliases": ["microsoft windows 7 - 10 microsoft-ds", "smb"]
+  },
+  {
+    "standard_name": "apache log4j",
+    "search_term": "CVE-2021-44228",
+    "aliases": ["http", "http-proxy", "nagios-nsca"]
+  },
+  {
+    "standard_name": "telnetd",
+    "search_term": "telnetd",
+    "aliases": ["linux telnetd", "telnet"]
+  },
+  {
+    "standard_name": "dns",
+    "search_term": "cpe:2.3:a:isc:bind",
+    "aliases": ["domain"]
+  },
+  {
+    "standard_name": "winrm",
+    "search_term": "winrm",
+    "aliases": ["wsman"]
+  },
+  {
+    "standard_name": "ms-rpc",
+    "search_term": "microsoft rpc",
+    "aliases": []
+  },
+  {
+    "standard_name": "webmin",
+    "search_term": "cpe:2.3:a:webmin:webmin",
+    "aliases": []
+  },
+  {
+    "standard_name": "splunk",
+    "search_term": "cpe:2.3:a:splunk:splunk",
+    "aliases": ["splunkd"]
+  },
+  {
+    "standard_name": "grafana",
+    "search_term": "cpe:2.3:a:grafana:grafana",
+    "aliases": []
+  },
+  {
+    "standard_name": "kibana",
+    "search_term": "cpe:2.3:a:elastic:kibana",
+    "aliases": []
+  },
+  {
+    "standard_name": "elasticsearch",
+    "search_term": "cpe:2.3:a:elastic:elasticsearch",
+    "aliases": []
+  },
+  {
+    "standard_name": "sonarqube",
+    "search_term": "cpe:2.3:a:sonarsource:sonarqube",
+    "aliases": []
+  },
+  {
+    "standard_name": "git",
+    "search_term": "cpe:2.3:a:git-scm:git",
+    "aliases": ["git-daemon"]
+  },
+  {
+    "standard_name": "pop3",
+    "search_term": "pop3",
+    "aliases": []
+  },
+  {
+    "standard_name": "imap",
+    "search_term": "imap",
+    "aliases": ["imaps"]
+  },
+  {
+    "standard_name": "oracle database",
+    "search_term": "cpe:2.3:a:oracle:database_server",
+    "aliases": ["oracle-tns", "oracle"]
+  },
+  {
+    "standard_name": "mongodb",
+    "search_term": "cpe:2.3:a:mongodb:mongodb",
+    "aliases": ["mongod"]
+  },
+  {
+    "standard_name": "microsoft iis",
+    "search_term": "cpe:2.3:a:microsoft:internet_information_services",
+    "aliases": ["iis"]
+  },
+  {
+    "standard_name": "lighttpd",
+    "search_term": "cpe:2.3:a:lighttpd:lighttpd",
+    "aliases": []
+  },
+  {
+    "standard_name": "postfix",
+    "search_term": "cpe:2.3:a:postfix:postfix",
+    "aliases": ["smtpd"]
+  },
+  {
+    "standard_name": "dovecot",
+    "search_term": "cpe:2.3:a:dovecot:dovecot",
+    "aliases": []
+  },
+  {
+    "standard_name": "memcached",
+    "search_term": "cpe:2.3:a:memcached:memcached",
+    "aliases": ["memcache"]
+  },
+  {
+    "standard_name": "rabbitmq",
+    "search_term": "cpe:2.3:a:rabbitmq:rabbitmq_server",
+    "aliases": ["amqp"]
+  },
+  {
+    "standard_name": "zabbix",
+    "search_term": "cpe:2.3:a:zabbix:zabbix",
+    "aliases": ["zabbix-agent"]
+  },
+  {
+    "standard_name": "isc dhcpd",
+    "search_term": "cpe:2.3:a:isc:dhcp",
+    "aliases": ["dhcpd", "dhcp"]
+  },
+  {
+    "standard_name": "pure-ftpd",
+    "search_term": "cpe:2.3:a:pure-ftpd:pure-ftpd",
+    "aliases": []
+  }
+]
