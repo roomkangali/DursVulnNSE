@@ -66,16 +66,16 @@
 - 🙏 [Thanks To](#thanks-to)
 
 
-# ℹ️  About DursVulnNSE
+# About DursVulnNSE
 
 DursVulnNSE is an open-source Nmap Scripting Engine (NSE) script designed to identify vulnerabilities in detected services. Inspired by [`scipag/vulscan`](https://github.com/scipag/vulscan) and [`vulnersCom/nmap-vulners`](https://github.com/vulnersCom/nmap-vulners), this project features a modular architecture and an easily updatable database to provide detailed, accurate, and readable vulnerability reports. DursVulnNSE stands out in the Nmap community due to its unique approach to vulnerability scanning. Unlike many existing solutions, DursVulnNSE offers a highly customizable and efficient local vulnerability database.
 
 
-## 💡 Why DursVuln?
+## Why DursVuln?
 
 DursVulnNSE fills a significant gap in the Nmap ecosystem by offering flexible, and user-friendly solution for local vulnerability scanning, addressing common challenges like false positives and delayed updates often encountered with online or less customizable tools.Ideal for internal penetration testing, air-gapped environments, or when privacy is a top priority.
 
-## 🏗️ System Architecture
+## System Architecture
 DursVulnNSE uses a two-component architecture to maximize efficiency: offline data processing and scan-time execution.
 
 **Offline Processing Component (`db_updater.py`):** This component is responsible for all resource-intensive tasks. It reads configuration files (`product.json` & `script_mapping.json`), fetches raw data from the NVD API, then performs an enrichment process to classify and format each CVE. The final result is a structured and optimized `cve-main.json` file.
@@ -154,7 +154,7 @@ DursVulnNSE uses a two-component architecture to maximize efficiency: offline da
 +-------------------------------------------------------------------------+
 ```
 
-## ✨ Features
+## Features
 -   **Dynamic Service Detection**: Automatically runs on any open port where Nmap has successfully detected a service and its version.
 -   **Output Control (`dursvuln.output`)**: Controls the verbosity and format of the scan report.
     -   `dursvuln.output=concise` (Default): Provides a clean, summarized report focusing on critical and high-confidence findings, with low-confidence findings limited and noted for manual verification.
@@ -163,7 +163,7 @@ DursVulnNSE uses a two-component architecture to maximize efficiency: offline da
 -   **Database Updater**: Includes Python scripts (`db_updater.py`, `fix_duplicate.py`) for fetching the latest CVE data from NVD and maintaining database integrity.
 -   **Layered Application Detection**: Capable of "looking deeper" than just web server versions, by detecting actual application versions from HTTP headers or HTML content (e.g., Jenkins on Jetty).
 
-# 👥 User Group
+# User Group
 
 DursVulnNSE solves real problems faced by various user groups every day.
 
@@ -185,7 +185,7 @@ DursVulnNSE solves real problems faced by various user groups every day.
 
 ---
 
-## 📦 Installation
+## Installation
 
 Ensure that Nmap version `7.94SVN` or later is installed for stability. The Nmap distribution can be downloaded from [`nmap.org/dist`](https://nmap.org/dist/)
 
@@ -233,7 +233,7 @@ The correct Nmap data directory (e.g., `/usr/local/share/nmap` or `/usr/share/nm
 
 ---
 
-## ⌨️ Usage
+## Usage
 
 Once installed, run the script by calling its name.
 
@@ -288,7 +288,7 @@ sudo nmap -sV -Pn --script=dursvuln <target_ip>
 
 ---
 
-## 📊 Understanding the Report
+## Understanding the Report
 DursVulnNSE classifies each finding based on its confidence level:
 
 -   **ID: ... (High Confidence)**: Strong evidence. The target version matches a known vulnerable version range. High Priority.
@@ -297,7 +297,7 @@ DursVulnNSE classifies each finding based on its confidence level:
 
 ---
 
-## 🗄️ Database Management
+## Database Management
 
 ### Updating the Database
 
@@ -452,7 +452,7 @@ To add new vulnerabilities manually, edit the `database/cve-main.json` file and 
 
 ---
 
-## 🔧 Customization & Development
+## Customization & Development
 The power of DursVuln lies in its flexibility.
 
 -   **Adding New Products**: A new entry can be added to `product.json`.
@@ -464,7 +464,7 @@ After making changes to configuration files, `python3 tools/db_updater.py` must 
 
 ---
 
-## 🗺️ Future Roadmap
+## Future Roadmap
 -   **Enhanced Version Detection Accuracy:**
     -   Continue to implement and refine protocol-specific versioning and identification logic within `dursvuln.nse` and `product.json` for broader and more accurate service coverage.
     -   Further improve `compare_versions` to handle complex version strings (e.g., with alphanumeric suffixes, multiple components) more robustly.
@@ -478,12 +478,12 @@ After making changes to configuration files, `python3 tools/db_updater.py` must 
 
 ---
 
-## 🤝 Contributions
+## Contributions
 Contributions are highly welcome! Please feel free to create pull requests or open issues if you find bugs or have ideas for new features.
 
 ---
 
-## 🙏 Thanks To
+## Thanks To
 
 This project would not have been possible without the hard work of many people in the open-source community. Special Thanks to:
 
