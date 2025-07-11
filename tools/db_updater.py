@@ -2,7 +2,9 @@
 db_updater.py
 
 Author: Kang Ali
+Version: 0.1.2
 
+Description:
 This script is responsible for fetching Common Vulnerabilities and Exposures (CVE)
 data from the NVD (National Vulnerability Database) API and updating a local
 JSON database. It is designed to synchronize with a `product.json` file to
@@ -14,7 +16,7 @@ Key Features:
 - Integrates with an optional `script_mapping.json` to enrich CVE entries with
   information about active Nmap scripts.
 - Supports adding individual CVEs by ID.
-
+- intelligently groups version ranges to improve accuracy.
 """
 
 import requests
@@ -111,25 +113,44 @@ def transform_and_enrich_cve(api_cve_item: dict, product_name: str, script_map: 
     if 'cvssMetricV31' in metrics: severity = metrics['cvssMetricV31'][0].get('cvssData', {}).get('baseSeverity', severity)
     elif 'cvssMetricV30' in metrics: severity = metrics['cvssMetricV30'][0].get('cvssData', {}).get('baseSeverity', severity)
     elif 'cvssMetricV2' in metrics: severity = metrics['cvssMetricV2'][0].get('severity', severity)
+    
     match_type = "product_only"; confidence = "low"; version_match = None; required_script = None
+    
     if cve_id in script_map:
         match_type = "active_check"; confidence = "high"; required_script = script_map[cve_id]
     else:
-        found_versions = []
+        # Group version conditions by their major version number
+        version_groups = {}
         for config in cve.get('configurations', []):
             for node in config.get('nodes', []):
                 for cpe_match in node.get('cpeMatch', []):
                     if cpe_match.get('vulnerable'):
-                        start_inc, end_exc, start_exc, end_inc = cpe_match.get('versionStartIncluding'), cpe_match.get('versionEndExcluding'), cpe_match.get('versionStartExcluding'), cpe_match.get('versionEndIncluding')
-                        if start_inc or end_exc or start_exc or end_inc:
-                            if start_inc: found_versions.append(f">={start_inc}")
-                            if end_exc: found_versions.append(f"<{end_exc}")
-                            if start_exc: found_versions.append(f">{start_exc}")
-                            if end_inc: found_versions.append(f"<={end_inc}")
-        if found_versions:
+                        conditions = []
+                        start_inc = cpe_match.get('versionStartIncluding')
+                        end_exc = cpe_match.get('versionEndExcluding')
+                        start_exc = cpe_match.get('versionStartExcluding')
+                        end_inc = cpe_match.get('versionEndIncluding')
+                        
+                        if start_inc: conditions.append(f">={start_inc}")
+                        if end_exc: conditions.append(f"<{end_exc}")
+                        if start_exc: found_versions.append(f">{start_exc}")
+                        if end_inc: conditions.append(f"<={end_inc}")
+                        
+                        if conditions:
+                            # Determine the major version key for grouping
+                            version_str = start_inc or start_exc or end_inc or end_exc or ""
+                            major_version = version_str.split('.')[0]
+                            
+                            if major_version not in version_groups:
+                                version_groups[major_version] = []
+                            version_groups[major_version].extend(conditions)
+
+        if version_groups:
             match_type = "version_range"; confidence = "high"
-            unique_versions = list(set(found_versions))
-            version_match = unique_versions[0] if len(unique_versions) == 1 else unique_versions
+            # Convert the grouped dictionary to a list of lists
+            final_groups = [list(set(v)) for v in version_groups.values()]
+            version_match = final_groups[0] if len(final_groups) == 1 else final_groups
+
     custom_cve = {"id": clean_string(cve_id), "product": clean_string(product_name), "summary": clean_string(description), "details": clean_string(description), "references": [clean_string(ref) for ref in references], "severity": clean_string(severity.upper()), "match_type": match_type, "confidence": confidence}
     if version_match: custom_cve["version_match"] = version_match
     if required_script: custom_cve["required_script"] = required_script
