@@ -14,6 +14,14 @@
 
 ---
 
+**DursVuln - Community Database Repository**
+
+This repository hosts the community-driven vulnerability database for DursVulnNSE. It provides an organized and up-to-date `cve-main.json` file for scanner users.
+
+[Explore the Database Repository](https://github.com/roomkangali/DursVuln-Database)
+
+---
+
 <div align="center">
   <table>
     <tr>
@@ -480,7 +488,10 @@ After making changes to configuration files, `python3 tools/db_updater.py` must 
 ---
 
 ## Contributions
-Contributions are highly welcome! Please feel free to create pull requests or open issues if you find bugs or have ideas for new features.
+Contributions are highly welcome!
+
+*   **For Scanner (NSE/Lua) Issues & Features**: Please feel free to create pull requests or open issues in *this* repository if you find bugs or have ideas for new features related to the DursVulnNSE scanner itself (NSE scripts, Lua libraries).
+*   **For Database Issues & Contributions**: For issues, updates, or contributions related to the vulnerability database (adding new CVEs, updating existing ones, etc.), please refer to the dedicated [DursVuln - Community Database Repository](https://github.com/roomkangali/DursVuln-Database).
 
 ---
 
