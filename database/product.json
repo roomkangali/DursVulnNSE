@@ -316,5 +316,80 @@
     "standard_name": "pure-ftpd",
     "search_term": "cpe:2.3:a:pure-ftpd:pure-ftpd",
     "aliases": []
+  },
+  {
+    "standard_name": "docker",
+    "search_term": "docker",
+    "aliases": []
+  },
+  {
+    "standard_name": "gitlab",
+    "search_term": "cpe:2.3:a:gitlab:gitlab",
+    "aliases": []
+  },
+  {
+    "standard_name": "kubernetes",
+    "search_term": "kubernetes",
+    "aliases": []
+  },
+  {
+    "standard_name": "exchange",
+    "search_term": "cpe:2.3:a:microsoft:exchange_server",
+    "aliases": []
+  },
+  {
+    "standard_name": "smtp",
+    "search_term": "smtp",
+    "aliases": []
+  },
+  {
+    "standard_name": "nfs",
+    "search_term": "nfs",
+    "aliases": []
+  },
+  {
+    "standard_name": "rpc",
+    "search_term": "rpc",
+    "aliases": []
+  },
+  {
+    "standard_name": "snmp",
+    "search_term": "snmp",
+    "aliases": []
+  },
+  {
+    "standard_name": "fortinet",
+    "search_term": "cpe:2.3:o:fortinet:fortios",
+    "aliases": []
+  },
+  {
+    "standard_name": "ipsec",
+    "search_term": "ipsec",
+    "aliases": []
+  },
+  {
+    "standard_name": "openvpn",
+    "search_term": "cpe:2.3:a:openvpn:openvpn",
+    "aliases": []
+  },
+  {
+    "standard_name": "smbv3",
+    "search_term": "smbv3",
+    "aliases": []
+  },
+  {
+    "standard_name": "generic",
+    "search_term": "generic",
+    "aliases": []
+  },
+  {
+    "standard_name": "input-validation",
+    "search_term": "input validation",
+    "aliases": []
+  },
+  {
+    "standard_name": "telnet",
+    "search_term": "telnet",
+    "aliases": []
   }
 ]
