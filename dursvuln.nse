@@ -3,11 +3,11 @@
 --
 -- This script performs vulnerability detection by leveraging a local CVE database
 -- and product detection rules. It identifies potential vulnerabilities based on
--- product and version information obtained from Nmap scans and custom detection
--- methods (e.g., HTTP headers, HTML content).
+-- (UPGRADED) This function now supports nested arrays for OR logic.
+-- e.g., { {">=1.0", "<1.5"}, {">=2.0", "<2.5"} } means (>=1.0 AND <1.5) OR (>=2.0 AND <2.5)
 --
 -- @author DursVuln
--- @version 0.1.1
+-- @version 0.1.2
 -- @copyright 2025
 -- @license MIT
 --
@@ -115,19 +115,46 @@ local function architecture_filter(cve_summary, port)
 end
 
 ---
--- Checks if a given version satisfies all specified conditions.
--- This is used for complex version matching where multiple conditions (e.g., >=X and <Y) apply.
---
+-- Helper function to check a single set of AND conditions.
+-- This contains the logic of the old `check_all_conditions` function.
 -- @param version string: The version string to check.
--- @param conditions table: A table of version condition strings (e.g., {">=4.87", "<=4.95.1"}).
+-- @param conditions table: A flat table of version condition strings.
 -- @return boolean: True if the version satisfies all conditions, false otherwise.
 ---
-function check_all_conditions(version, conditions)
+local function check_and_conditions(version, conditions)
   for _, condition in ipairs(conditions) do
-    if not compare_versions(version, condition) then return false end
+    if not compare_versions(version, condition) then
+      return false
+    end
   end
   return true
 end
+
+---
+-- Checks if a given version satisfies all specified conditions.
+-- (UPGRADED) This function now supports nested arrays for OR logic.
+-- e.g., { {">=1.0", "<1.5"}, {">=2.0", "<2.5"} } means (>=1.0 AND <1.5) OR (>=2.0 AND <2.5)
+-- @param version string: The version string to check.
+-- @param conditions table: A table of version condition strings.
+-- @return boolean: True if the version satisfies the conditions, false otherwise.
+---
+function check_all_conditions(version, conditions)
+  -- Check if the first element is a table. If so, it's a nested array (OR logic).
+  if type(conditions[1]) == "table" then
+    for _, inner_conditions in ipairs(conditions) do
+      -- If the version matches ANY of the inner groups, it's a success.
+      if check_and_conditions(version, inner_conditions) then
+        return true
+      end
+    end
+    -- If we looped through all inner groups and found no match.
+    return false
+  else
+    -- It's a flat array, use the old AND logic for backward compatibility.
+    return check_and_conditions(version, conditions)
+  end
+end
+
 
 ---
 -- Compares two version strings based on a specified operator.
@@ -441,14 +468,27 @@ action = function(host, port)
 
   -- Get product configuration to apply custom detection rules.
   local product_config = vulndb.get_product_config(primary_key)
-  if product_config then
-      local app_version, app_name = get_application_version(host, port, product_config)
-      if app_version and app_name then
-          -- If a more accurate version is found via custom detection, use it.
-          version_full = app_version;
-          product_display_name = app_name;
-          primary_key = string.lower(app_name)
-      end
+  
+  -- If a product configuration has specific detection rules, they MUST pass.
+  if product_config and product_config.detection_rules then
+    
+    -- Attempt to get a more accurate version using the defined rules.
+    local app_version, app_name = get_application_version(host, port, product_config)
+
+    -- If no version was found via the rules, this is not the correct product.
+    -- This prevents a generic service (like Jetty) from being misidentified as
+    -- a specific application (like Jenkins).
+    if not app_version then
+      stdnse.debug1("Product '%s' has detection rules, but none succeeded. Aborting.", primary_key)
+      return nil
+    end
+
+    -- If detection was successful, we MUST overwrite the initial banner info
+    -- with the more accurate data we just found.
+    stdnse.debug1("Deep inspection successful. Overwriting banner info.")
+    version_full = app_version
+    product_display_name = app_name
+    primary_key = string.lower(app_name)
   end
 
   -- Extract a simplified version string for comparison.
