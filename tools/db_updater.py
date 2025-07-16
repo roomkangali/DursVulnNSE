@@ -121,6 +121,7 @@ def transform_and_enrich_cve(api_cve_item: dict, product_name: str, script_map: 
     else:
         # Group version conditions by their major version number
         version_groups = {}
+        found_versions = []
         for config in cve.get('configurations', []):
             for node in config.get('nodes', []):
                 for cpe_match in node.get('cpeMatch', []):
